@@ -2,19 +2,18 @@ from rest_framework import serializers
 from watchlist.models import Watchlist,Streamplatform
 
 
-class StreamplatformSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Streamplatform
-        fields = "__all__"
-
-
-
-
 class WatchlistSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Watchlist
+        fields = "__all__"
+
+
+class StreamplatformSerializer(serializers.ModelSerializer):
+    watchlist = WatchlistSerializer(many = True ,read_only=True)
+
+    class Meta:
+        model = Streamplatform
         fields = "__all__"
  
     #     def validate(self, data):

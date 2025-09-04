@@ -16,11 +16,14 @@ class StreamplatformAV(APIView):
     def post(self,request):
         platform = Streamplatform.objects.all()
         serializer = StreamplatformSerializer(platform, many = True)
+        serializer = StreamplatformSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response
+            return Response(serializer.data)
         else :
-            return Response(serializer.save)
+            return Response(serializer.saved)
+        
+
         
 
 
