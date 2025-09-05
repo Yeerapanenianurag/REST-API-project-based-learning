@@ -2,10 +2,28 @@ from rest_framework.response import Response
 from watchlist.models import Watchlist
 from rest_framework import status
 # from rest_framework.decorators import api_view
-from watchlist.api.serializers import WatchlistSerializer,StreamplatformSerializer
-from rest_framework.views import APIView 
-from watchlist.models import Watchlist,Streamplatform
+from watchlist.api.serializers import WatchlistSerializer,StreamplatformSerializer,ReviewSerializer
+from rest_framework.views import APIView
+from rest_framework import generics,mixins
+from watchlist.models import Watchlist,Streamplatform,Review
 
+class ReviewDetail(mixins.RetrieveModelMixin,generics.GenericAPIView):
+    queryset = queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+class ReviewList(mixins.ListModelMixin,mixins.CreateModelMixin,generics.GenericAPIView):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
 class StreamplatformAV(APIView):
     def get(self,request):
