@@ -1,8 +1,9 @@
 from rest_framework.response import Response
 from watchlist.models import Watchlist
 from rest_framework import status
-
+from rest_framework.exceptions import ValidationError
 from django.shortcuts import get_object_or_404
+
 # from rest_framework.decorators import api_view
 from watchlist.api.serializers import WatchlistSerializer,StreamplatformSerializer,ReviewSerializer
 from rest_framework.views import APIView
@@ -14,12 +15,22 @@ from watchlist.models import Watchlist,Streamplatform,Review
 class ReviewCreate(generics.CreateAPIView):
     serializer_class = ReviewSerializer
 
+    def query_set(self):
+        return Review.objects.all()
+
 
     def perform_create(self,serializer):
         pk = self.kwargs.get('pk')
         movie = Watchlist.objects.get(pk=pk)
+        watchlist = Watchlist.objects.get(pk=pk)
 
-        serializer.save(Watchlist=Watchlist)
+        review_user = self.request.user
+        review_queyset = Review.objects.filter(watchlist= watchlist , review_user=review_user)
+
+        if review_queyset.exists():
+            raise ValidationError("Already give a review ")
+
+        serializer.save(Watchlist=Watchlist,review_user = review_user)
 
 
 
