@@ -12,9 +12,10 @@ A RESTful API service built with Django and Django REST Framework. This app demo
 
 ## Features
 - CRUD for main resources
-- Token-based authentication
+- Token-based authentication(JWT)
 - Filtering, pagination, and search
 - Admin interface for management
+- Postman
 
 ## Technologies Used
 - Python 3.10+
