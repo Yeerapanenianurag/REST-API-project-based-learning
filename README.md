@@ -21,7 +21,7 @@ A RESTful API service built with Django and Django REST Framework. This app demo
 - Django 4.x
 - Django RE
 - REST Framework
-- Postgres SQL(default, easily switchable to PostgreSQL)
+- SQLite(default, easily switchable to PostgreSQL)
 
 ## Installation
 
