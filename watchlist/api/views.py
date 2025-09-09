@@ -4,11 +4,13 @@ from rest_framework import status
 from rest_framework.exceptions import ValidationError
 from django.shortcuts import get_object_or_404
 
+from rest_framework.permissions import IsAuthenticated,IsAuthenticatedOrReadOnly
 # from rest_framework.decorators import api_view
 from watchlist.api.serializers import WatchlistSerializer,StreamplatformSerializer,ReviewSerializer
 from rest_framework.views import APIView
 from rest_framework import generics,mixins
 from rest_framework import viewsets
+from watchlist.api.permissions import AdminOrReadOnly , ReviewUserOrReadOnly
 
 from watchlist.models import Watchlist,Streamplatform,Review
 
@@ -38,6 +40,7 @@ class ReviewCreate(generics.CreateAPIView):
 class ReviewList(generics.ListCreateAPIView):
     #queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         p = self.kwargs['pk']
@@ -47,6 +50,8 @@ class ReviewList(generics.ListCreateAPIView):
 class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+    permission_classes = [ReviewUserOrReadOnly]
+
     
 
 
