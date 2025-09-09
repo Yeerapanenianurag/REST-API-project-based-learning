@@ -28,7 +28,7 @@ class ReviewCreate(generics.CreateAPIView):
         review_queyset = Review.objects.filter(watchlist= watchlist , review_user=review_user)
 
         if review_queyset.exists():
-            raise ValidationError("Already give a review ")
+            raise ValidationError("Already given a review ")
 
         serializer.save(Watchlist=Watchlist,review_user = review_user)
 
